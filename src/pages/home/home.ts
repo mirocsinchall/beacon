@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { EstimoteBeacons, EstimoteBeaconRegion } from '@ionic-native/estimote-beacons';
+//import { EstimoteBeacons, EstimoteBeaconRegion } from '@ionic-native/estimote-beacons';
 
 declare var evothings: any
 
@@ -12,11 +12,11 @@ export class HomePage {
   uuid = [];
 
   constructor(
-    public navCtrl: NavController,
-    private eb: EstimoteBeacons
+    public navCtrl: NavController
+  //  private eb: EstimoteBeacons
   ) {
-    this.eb.requestAlwaysAuthorization();
-    this.eb.enableAnalytics(true);
+    //this.eb.requestAlwaysAuthorization();
+    //this.eb.enableAnalytics(true);
 
     // this.eb.startRangingBeaconsInRegion({ major: 57873, minor: 56884, uuid: "b9407f30-f5f8-466e-aff9-25556b57fe6d" }).subscribe(
     //   (result: any) => {
@@ -30,15 +30,18 @@ export class HomePage {
     //   }
     // );
 
-    evothings.eddystone.startScan((beacon) => {
-      let distance = evothings.eddystone.calculateAccuracy(beacon.txPower, beacon.rssi);
-      let str_nid = evothings.util.typedArrayToHexString(beacon.nid); //Namespace ID
-      let str_bid = evothings.util.typedArrayToHexString(beacon.bid); //Beacon ID or Instance ID
-      console.log('*** Beacons ranged ***')
-      console.log(this.HexToString(str_nid));
-      console.log(this.HexToString(str_bid));
-      console.log(distance);
-    })
+    setTimeout(()=>{
+      evothings.eddystone.startScan((beacon) => {     
+          let distance = evothings.eddystone.calculateAccuracy(beacon.txPower, beacon.rssi);
+          let str_nid = evothings.util.typedArrayToHexString(beacon.nid); //Namespace ID
+          let str_bid = evothings.util.typedArrayToHexString(beacon.bid); //Beacon ID or Instance ID
+          console.log('*** Beacons ranged ***')
+          console.log(this.HexToString(str_nid));
+          console.log(this.HexToString(str_bid));
+          console.log(distance);
+        })
+    },10000)
+   
 
 
     // HEX Notes: 
